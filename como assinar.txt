@@ -1,0 +1,1 @@
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore release.keystore app-release.aab atila

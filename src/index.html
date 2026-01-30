@@ -1,26 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="utf-8" />
-  <title>Ionic App</title>
+
+  <title>Alavancagem</title>
 
   <base href="/" />
 
-  <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Força viewport estável -->
+  <meta
+    name="viewport"
+    content="viewport-fit=cover,
+             width=device-width,
+             initial-scale=1.0,
+             minimum-scale=1.0,
+             maximum-scale=1.0,
+             user-scalable=no"
+  />
+
+  <!-- Força modo claro -->
+  <meta name="color-scheme" content="light" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <!-- SEO / Store friendly -->
+  <meta name="description" content="App de registro e acompanhamento de apostas com histórico visual." />
+  <meta name="theme-color" content="#ffffff" />
 
-  <!-- add to homescreen for ios -->
+  <!-- PWA / Mobile -->
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Ícone -->
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root aria-live="polite"></app-root>
 </body>
-
 </html>

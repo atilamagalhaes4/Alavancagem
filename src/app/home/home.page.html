@@ -1,20 +1,360 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="false" class="ion-padding-top">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="content-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- ABA: CONFIGURAR -->
+    <div *ngIf="abaAtiva === 'config'">
+
+      <div class="logo-container">
+        <ion-icon name="trending-up" class="logo-icon"></ion-icon>
+        <h1>Alavancagem</h1>
+        <p>Configure e inicie uma nova alavancagem</p>
+      </div>
+
+      <!-- Alavancagens Ativas -->
+      <ion-card *ngIf="alavancagensAtivas.length > 0" class="card-ativas">
+        <ion-card-header>
+          <ion-card-title>Alavancagens Ativas ({{ alavancagensAtivas.length }})</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-button expand="block" fill="outline" (click)="selecionarAlavancagem()">
+            <ion-icon name="list-outline" slot="start"></ion-icon>
+            Selecionar Alavancagem
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Configuração Nova Alavancagem -->
+      <ion-card class="card-config">
+        <ion-card-header>
+          <ion-card-title>Nova Alavancagem</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Nome (opcional)</ion-label>
+            <ion-input [(ngModel)]="nomeAlavancagem" placeholder="Ex: Alavancagem Futebol"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Saldo Inicial (R$)</ion-label>
+            <ion-input type="number" [(ngModel)]="saldoInicial" placeholder="20.00"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Odd Padrão</ion-label>
+            <ion-input type="text" [(ngModel)]="oddPadrao" placeholder="1.40" inputmode="decimal"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Quantidade de Apostas</ion-label>
+            <ion-input type="number" [(ngModel)]="quantidadeApostas" placeholder="20" min="1"></ion-input>
+          </ion-item>
+
+          <br>
+          <!-- Preview da Meta -->
+          <div *ngIf="calcularMetaPreview() !== null" class="preview-meta"
+            style="margin-top: 16px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background: #f9f9f9;">
+            <strong>Meta estimada:</strong>
+            <span>{{ formatarMetaPreview() }}</span>
+          </div>
+
+          <ion-button expand="block" (click)="iniciarNovaAlavancagem()" class="btn-iniciar">
+            <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+            Criar e Iniciar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- ABA: APOSTAS -->
+    <div *ngIf="abaAtiva === 'apostas' && alavancagemAtual">
+
+      <!-- Header da Alavancagem -->
+      <ion-card class="card-header-alavancagem">
+        <ion-card-content>
+          <div class="header-info">
+            <h2>{{ alavancagemAtual.nome }}</h2>
+            <p>{{ alavancagemAtual.quantidadeApostas }} apostas • Iniciada em {{
+              formatarData(alavancagemAtual.dataInicio) }}</p>
+          </div>
+
+          <div style="display:flex; gap:6px; align-items:center;">
+            <ion-button size="small" fill="outline" color="dark" (click)="selecionarAlavancagem()">
+              <ion-icon name="swap-horizontal-outline"></ion-icon>
+            </ion-button>
+
+            <!-- Botão para editar quantidade de apostas -->
+            <ion-button size="small" fill="clear" color="dark" (click)="editarQuantidadeApostas()">
+              <ion-icon name="build-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Saldo Atual -->
+      <ion-card class="card-saldo">
+        <ion-card-content>
+          <div class="saldo-info" style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div class="saldo-label" style="display:flex; align-items:center; gap: 8px;">
+                Saldo Atual
+                <ion-icon [name]="mostrarValores ? 'eye-outline' : 'eye-off-outline'"
+                  (click)="toggleVisibilidadeValores()" class="icone-olho" style="cursor:pointer;">
+                </ion-icon>
+              </div>
+              <div class="saldo-valor">{{ formatarValorSeguro(alavancagemAtual.saldoAtual) }}</div>
+              <ion-badge
+                [color]="statusProjecao === 'acima' ? 'success' : (statusProjecao === 'abaixo' ? 'danger' : 'medium')"
+                class="badge-status">
+                {{ statusProjecao === 'acima' ? '↑' : (statusProjecao === 'abaixo' ? '↓' : '=') }}
+                {{ textoProjecao }}
+              </ion-badge>
+            </div>
+
+            <!-- Caneta para editar saldo atual -->
+            <ion-button size="small" fill="clear" color="light" (click)="editarSaldoAtual()">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <ion-button expand="block" fill="outline" (click)="toggleProjecao()" class="btn-projecao">
+            <ion-icon name="analytics-outline" slot="start"></ion-icon>
+            {{ mostrarProjecao ? 'Ocultar' : 'Ver' }} Projeção
+          </ion-button>
+
+          <div *ngIf="mostrarProjecao" class="projecao-container">
+
+            <!-- Meta com odd padrão -->
+            <div class="projecao-item" (click)="mostrarInfoMeta()">
+              <span class="projecao-label">🎯 Meta:</span>
+              <span class="projecao-valor">{{ formatarValorSeguro(calcularMetaOddPadrao()) }}</span>
+            </div>
+
+            <!-- Quanto falta -->
+            <div class="projecao-item" (click)="mostrarInfoFalta()">
+              <span class="projecao-label">💰 Falta ganhar:</span>
+              <span class="projecao-valor destaque">{{ formatarValorSeguro(calcularFaltaParaMeta()) }}</span>
+            </div>
+
+            <!-- Projeção com odds reais -->
+            <div class="projecao-item" (click)="mostrarInfoProjecao()">
+              <span class="projecao-label">📊 Projeção:</span>
+              <span class="projecao-valor">{{ formatarValorSeguro(calcularProjecaoOddsReais()) }}</span>
+            </div>
+
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Lista de Apostas -->
+      <ion-card *ngFor="let aposta of apostasVisiveis; let i = index" [ngClass]="'aposta-card aposta-' + aposta.status">
+
+        <ion-card-header>
+          <div class="aposta-header" style="align-items:center;">
+            <ion-card-title>Aposta {{ aposta.numero }}</ion-card-title>
+            <ion-badge
+              [color]="aposta.status === 'vitoria' ? 'success' : (aposta.status === 'derrota' ? 'danger' : 'medium')">
+              {{ aposta.status === 'vitoria' ? 'Vitória ✓' : (aposta.status === 'derrota' ? 'Derrota ✗' : 'Pendente') }}
+            </ion-badge>
+
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col size=12 (click)="editarOdd(aposta.numero)">
+                <ion-badge color="warning" style="font-size:0.8rem;">Odd: {{ getApostaOdd(aposta.numero) }}</ion-badge>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <div class="info-label">Saldo Antes</div>
+                <div class="info-value">{{ formatarValorSeguro(aposta.saldoAntes) }}</div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="info-label">Saldo Depois</div>
+                <div class="info-value">{{ formatarValorSeguro(aposta.saldoDepois) }}</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <!-- Print (Pendente) -->
+          <div *ngIf="aposta.print && aposta.status === 'pendente'" class="print-container">
+            <img [src]="aposta.print" alt="Print" (click)="abrirPrint(aposta.print)">
+            <ion-button size="small" fill="clear" color="danger" (click)="removerPrintPorNumero(aposta.numero)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <!-- Print (Finalizada) -->
+          <div *ngIf="aposta.print && aposta.status !== 'pendente'" class="print-container-final">
+            <img [src]="aposta.print" alt="Print" (click)="abrirPrint(aposta.print)">
+          </div>
+
+          <!-- Ver Print (Botão para quando já finalizou) -->
+          <ion-button *ngIf="aposta.status !== 'pendente'" expand="block" fill="outline" color="medium"
+            (click)="verPrintPorNumero(aposta.numero)">
+            <ion-icon name="image-outline" slot="start"></ion-icon>
+            {{ aposta.print ? 'Ver Print' : 'Sem Print' }}
+          </ion-button>
+
+          <!-- Ações (Pendente) -->
+          <div *ngIf="aposta.status === 'pendente'" class="acoes">
+            <ion-item class="item-odd">
+              <ion-label>Odd:</ion-label>
+              <ion-input type="text" [value]="getApostaOdd(aposta.numero)"
+                (ionInput)="formatarOddInputRealTime($event, aposta.numero)" inputmode="decimal" class="odd-input">
+              </ion-input>
+            </ion-item>
+            <br>
+            <ion-button *ngIf="!aposta.print" expand="block" fill="outline" color="medium"
+              (click)="adicionarPrintPorNumero(aposta.numero)" class="btn-print">
+              <ion-icon name="image-outline" slot="start"></ion-icon>
+              Adicionar Print
+            </ion-button>
+
+            <div class="botoes-acao">
+              <ion-button expand="block" color="success"
+                (click)="registrarResultadoPorNumero(aposta.numero, 'vitoria')">
+                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                Vitória
+              </ion-button>
+              <ion-button expand="block" color="danger" (click)="registrarResultadoPorNumero(aposta.numero, 'derrota')">
+                <ion-icon name="close-outline" slot="start"></ion-icon>
+                Derrota
+              </ion-button>
+            </div>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Finalizar -->
+      <ion-card class="card-finalizar">
+        <ion-card-content>
+          <ion-button expand="block" fill="clear" color="dark" (click)="finalizarAlavancagem()">
+            ❌ Finalizar e 📁 Arquivar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+    <!-- ABA: HISTÓRICO -->
+    <div *ngIf="abaAtiva === 'historico'">
+
+      <div class="historico-header">
+        <h2 style="text-align: center; font-weight: bold; margin-bottom: 5%;">Histórico de Alavancagens</h2>
+        <p *ngIf="alavancagensFinalizadas.length === 0">Nenhuma alavancagem finalizada ainda.</p>
+      </div>
+
+      <ion-card *ngFor="let alav of alavancagensFinalizadas" class="card-historico">
+        <ion-card-header>
+          <div class="historico-header-card">
+            <div>
+              <ion-card-title>{{ alav.nome }}</ion-card-title>
+              <ion-card-subtitle>
+                {{ formatarData(alav.dataInicio) }} - {{ formatarData(alav.dataFim!) }}
+              </ion-card-subtitle>
+            </div>
+            <ion-button fill="clear" color="danger" (click)="excluirAlavancagem(alav.id)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="historico-info">
+            <div class="info-row">
+              <span>Saldo Inicial:</span>
+              <strong>{{ formatarMoeda(alav.saldoInicial) }}</strong>
+            </div>
+            <div class="info-row">
+              <span>Saldo Final:</span>
+              <strong [class.positivo]="alav.saldoAtual > alav.saldoInicial"
+                [class.negativo]="alav.saldoAtual < alav.saldoInicial">
+                {{ formatarMoeda(alav.saldoAtual) }}
+              </strong>
+            </div>
+            <div class="info-row">
+              <span>Apostas:</span>
+              <strong>{{ contarVitorias(alav) }} / {{ alav.quantidadeApostas }}</strong>
+            </div>
+          </div>
+
+          <!-- Apostas do Histórico -->
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item slot="header">
+                <ion-label>Ver Apostas e Prints</ion-label>
+              </ion-item>
+              <div slot="content" class="accordion-content">
+                <div *ngFor="let aposta of alav.apostas" class="aposta-historico">
+                  <div class="aposta-historico-header">
+                    <span><strong>Aposta {{ aposta.numero }}</strong> - Odd {{ aposta.odd }}</span>
+                    <ion-badge [color]="aposta.status === 'vitoria' ? 'success' : 'danger'">
+                      {{ aposta.status === 'vitoria' ? '✓' : '✗' }}
+                    </ion-badge>
+                  </div>
+                  <div class="aposta-historico-saldos">
+                    <span>{{ formatarMoeda(aposta.saldoAntes) }} → {{ formatarMoeda(aposta.saldoDepois) }}</span>
+                  </div>
+                  <div *ngIf="aposta.print" class="print-historico">
+                    <img [src]="aposta.print" alt="Print" (click)="abrirPrint(aposta.print)">
+                  </div>
+                  <div *ngIf="!aposta.print" class="sem-print">
+                    <ion-icon name="image-outline"></ion-icon>
+                    <span>Sem print</span>
+                  </div>
+                </div>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
   </div>
+
 </ion-content>
+
+<!-- MODAL DE VISUALIZAÇÃO DE PRINT (FORA DO ION-CONTENT) -->
+<div *ngIf="printSelecionado" class="print-modal" (click)="fecharPrint()">
+  <div class="print-modal-content" (click)="$event.stopPropagation()">
+
+    <ion-button class="btn-fechar" fill="clear" (click)="fecharPrint()">
+      <ion-icon name="close-circle" size="large"></ion-icon>
+    </ion-button>
+
+    <img [src]="printSelecionado" alt="Print em tela cheia">
+
+    <div class="acoes-print">
+      <ion-button fill="clear" color="light" (click)="compartilharPrint(printSelecionado)">
+        <ion-icon name="share-outline" size="large"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+</div>
+
+<ion-tab-bar slot="bottom" class="bottom-tabs" translucent="false">
+
+  <ion-tab-button (click)="mudarAba('config')" [class.tab-ativa]="abaAtiva === 'config'">
+    <ion-icon name="settings-outline"></ion-icon>
+    <ion-label>Configurar</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="mudarAba('apostas')" [disabled]="!alavancagemAtual"
+    [class.tab-ativa]="abaAtiva === 'apostas'">
+    <ion-icon name="trending-up-outline"></ion-icon>
+    <ion-label>Apostas</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="mudarAba('historico')" [class.tab-ativa]="abaAtiva === 'historico'">
+    <ion-icon name="time-outline"></ion-icon>
+    <ion-label>Histórico</ion-label>
+  </ion-tab-button>
+
+</ion-tab-bar>

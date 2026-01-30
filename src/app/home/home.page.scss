@@ -1,27 +1,896 @@
-#container {
-  text-align: center;
+ion-content {
+  --background: #f8f9fa;
+  --background: #f8f9fa;
+  --padding-bottom: 64px;
+  /* igual à altura do tab */
+  scroll-padding-bottom: 64px;
+  /* evita que conteúdo seja escondido atrás */
 
-  position: absolute;
+}
+
+.tabs-container {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #94a3b8;
+
+  ion-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+
+  span {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &.active {
+    color: #5b7fff;
+    border-bottom: 3px solid #5b7fff;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.content-padding {
+  padding: 15px;
+  background-color: #fff;
+}
+
+.logo-container {
+  text-align: center;
+  margin: 30px 0 40px 0;
+
+  .logo-icon {
+    font-size: 70px;
+    color: #5b7fff;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+  }
+
+  p {
+    color: #7f8c8d;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+}
+
+.card-ativas {
+  background: #fff3cd;
+  margin-bottom: 20px;
+
+  ion-card-title {
+    font-size: 16px;
+    color: #856404;
+  }
+}
+
+.card-config {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 15px;
+  }
+}
+
+.btn-iniciar {
+  margin-top: 20px;
+  --background: #5b7fff;
+  font-weight: 600;
+}
+
+.card-header-alavancagem {
+  background: white;
+  margin-bottom: 15px;
+
+  ion-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-info {
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    p {
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+  }
+}
+
+.card-saldo {
+  background: linear-gradient(135deg, #5b7fff 0%, #4a6eef 100%);
+  color: white;
+  margin-bottom: 20px;
+
+  .saldo-info {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .saldo-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+  }
+
+  .saldo-valor {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .badge-status {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.btn-projecao {
+  --color: white;
+  --border-color: rgba(255, 255, 255, 0.5);
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.projecao-container {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.projecao-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+
+  .projecao-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+  }
+
+  .projecao-valor {
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+  }
+}
+
+.aposta-card {
+  margin-bottom: 15px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &.aposta-vitoria {
+    border-left: 5px solid #10b981;
+  }
+
+  &.aposta-derrota {
+    border-left: 5px solid #ef4444;
+    opacity: 0.7;
+  }
+
+  &.aposta-pendente {
+    border-left: 5px solid #94a3b8;
+  }
+}
+
+.aposta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.item-odd {
+  --padding-start: 0;
+  margin-bottom: 10px;
+}
+
+.odd-input {
+  text-align: right;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.botoes-acao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-print {
+  margin-bottom: 10px;
+}
+
+.print-container {
+  position: relative;
+  margin: 15px 0;
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25%;
+  }
+}
+
+.print-container-final {
+  margin: 15px 0;
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.acoes {
+  margin-top: 15px;
+}
+
+.card-finalizar {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.historico-header {
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 22px;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.card-historico {
+  margin-bottom: 15px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.historico-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.historico-info {
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  span {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  strong {
+    color: #1e293b;
+    font-size: 14px;
+
+    &.positivo {
+      color: #10b981;
+    }
+
+    &.negativo {
+      color: #ef4444;
+    }
+  }
+}
+
+.accordion-content {
+  padding: 15px;
+  background: #f8f9fa;
+}
+
+.aposta-historico {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.aposta-historico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+
+  span {
+    font-size: 14px;
+    color: #2c3e50;
+  }
+}
+
+.aposta-historico-saldos {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.print-historico {
+  img {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.sem-print {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .saldo-valor {
+    font-size: 28px;
+  }
+
+  .logo-container h1 {
+    font-size: 24px;
+  }
+
+  .tab-item span {
+    font-size: 11px;
+  }
+}
+
+.bottom-tabs {
+  border-top: 1px solid #e5e7eb;
+  background: white;
+
+  ion-tab-button {
+    --color: #94a3b8;
+    --color-selected: #5b7fff;
+    font-weight: 500;
+  }
+}
+
+
+.bottom-tabs {
+  position: fixed;
+  bottom: 0;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  border-top: 1px solid #e5e7eb;
+  background: white;
+  z-index: 1000;
+
+  ion-tab-button {
+    --color: #94a3b8;
+    --color-selected: #5b7fff;
+    font-weight: 500;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.image-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
 }
 
-#container p {
+
+.print-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.print-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.btn-fechar {
+  align-self: flex-end;
+  --color: white;
+  margin-bottom: 10px;
+}
+
+.print-container,
+.print-container-final {
+  img {
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+ion-tab-button {
+  position: relative;
+  border-right: 1px solid #e7e7e7; // barrinha vertical cinza
+}
+
+// Remove a barrinha do último botão
+ion-tab-button:last-child {
+  border-right: none;
+}
+
+// Tracinho azul suave em cima (CENTRALIZADO)
+ion-tab-button.tab-ativa::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%; // começa no meio
+  transform: translateX(-50%); // puxa metade da largura pra trás = centraliza
+  width: 60%; // ajusta a largura que quiser (60%, 70%, 80%)
+  height: 2px;
+  background: #3880ff;
+  border-radius: 0 0 3px 3px;
+  opacity: 0.8;
+  box-shadow: 0 1px 4px rgba(56, 128, 255, 0.4);
+}
+
+.projecao-item {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.projecao-item:hover {
+  opacity: 0.8;
+}
+
+/* Estilo customizado para o Toast */
+.toast-customizado {
+  --background: #ffffff;
+  /* Fundo Branco */
+  --color: #3880ff;
+  /* Texto Azul */
+  --button-color: #3880ff;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  /* Aumentando o Height e centralizando texto */
+  .toast-wrapper {
+    min-height: 120px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #3880ff;
+    /* Borda azul para destacar */
+  }
+
+  .toast-message {
+    font-size: 18px !important;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    padding: 20px !important;
+  }
+}
+
+ion-tab-bar {
+  --color-selected: #000000 !important;
+  /* Cor do texto e ícone selecionados */
+  --color: #000000 !important;
+  /* Cor do texto e ícone não selecionados */
+  --opacity: 1 !important;
+  /* Remove qualquer opacidade */
+}
+
+ion-tab-button {
+  color: #000000 !important;
+  /* Garante que o texto e ícone fiquem pretos */
+  opacity: 1 !important;
+  /* Remove opacidade */
+}
+
+ion-tab-bar {
+  --color-selected: #003366 !important;
+  /* Azul escuro */
+  --color: #000000 !important;
+  --opacity: 1 !important;
+}
+
+ion-tab-bar {
+  background: #ffffff !important;
+}
+
+
+
+/* Cards de apostas e histórico com sombra mais marcada e suave */
+.aposta-card,
+.card-historico {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  /* Sombra mais profunda e suave */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Efeito hover para dar destaque */
+.aposta-card:hover,
+.card-historico:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* Mantém o estilo de borda colorida para apostas */
+.aposta-card.aposta-vitoria {
+  border-left: 5px solid #10b981;
+}
+
+.aposta-card.aposta-derrota {
+  border-left: 5px solid #ef4444;
+  opacity: 0.8;
+}
+
+.aposta-card.aposta-pendente {
+  border-left: 5px solid #94a3b8;
+}
+
+.bottom-tabs {
+  --background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+ion-tab-button {
+  /* Cor padrão para quem NÃO está ativo */
+  --color: #94a3b8 !important;
+  --color-selected: #5b7fff !important;
+
+  ion-icon,
+  ion-label {
+    color: #94a3b8;
+    /* Garante o cinza no estado normal */
+  }
+
+  /* Quando a classe .tab-ativa for aplicada pelo seu (click) */
+  &.tab-ativa {
+
+    ion-icon,
+    ion-label {
+      color: #5b7fff !important;
+      /* "Acende" o ícone e o texto com azul */
+    }
+
+    /* Aquele tracinho azul que você já tinha */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 3px;
+      background: #5b7fff;
+      border-radius: 0 0 3px 3px;
+      box-shadow: 0 1px 4px rgba(91, 127, 255, 0.4);
+    }
+  }
+
+}
+
+.icone-olho {
+  font-size: 18px;
+  margin-left: 8px;
+  cursor: pointer;
+  vertical-align: middle;
+  color: rgba(255, 255, 255, 0.7);
+
+  &:hover {
+    color: white;
+  }
+}
+
+
+.card-saldo {
+  background: linear-gradient(135deg, #5b7fff 0%, #4a6eef 100%);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.card-saldo .saldo-valor {
+  font-size: 40px;
+  letter-spacing: -0.5px;
+}
+
+.card-saldo .badge-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.card-saldo ion-button {
+  --border-radius: 12px;
+}
+
+.aposta-card {
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aposta-card:active {
+  transform: scale(0.99);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.aposta-header ion-card-title {
   font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+  font-weight: 600;
 }
 
-#container a {
-  text-decoration: none;
+.bottom-tabs {
+  height: 64px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+}
+
+ion-tab-button {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+ion-tab-button.tab-ativa {
+  transform: translateY(-2px);
+}
+
+ion-tab-button.tab-ativa ion-icon {
+  transform: scale(1.1);
+}
+
+.aposta-card {
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aposta-card:active {
+  transform: scale(0.99);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.aposta-header ion-card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.aposta-card {
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aposta-card:active {
+  transform: scale(0.99);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.aposta-header ion-card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.bottom-tabs {
+  height: 64px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+}
+
+ion-tab-button {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+ion-tab-button.tab-ativa {
+  transform: translateY(-2px);
+}
+
+ion-tab-button.tab-ativa ion-icon {
+  transform: scale(1.1);
+}
+
+
+////////////////////Novas mudancas
+
+
+ion-card {
+  margin-bottom: 24px;
+}
+
+ion-card-header {
+  padding-bottom: 8px;
+}
+
+ion-card-content {
+  padding-top: 12px;
+}
+
+.info-label {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.info-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.projecao-container {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.projecao-item {
+  padding: 10px 0;
+}
+
+.projecao-item:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.aposta-card.aposta-vitoria {
+  background: linear-gradient(0deg, rgba(16, 185, 129, 0.06), #ffffff);
+}
+
+.aposta-card.aposta-derrota {
+  background: linear-gradient(0deg, rgba(239, 68, 68, 0.06), #ffffff);
+}
+
+.aposta-card.aposta-pendente {
+  background: #ffffff;
+}
+
+ion-button {
+  --border-radius: 14px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+ion-button:active {
+  transform: scale(0.97);
+}
+
+
+/* ===============================
+   PREVIEW FIXA DE PRINT (CROP)
+   =============================== */
+
+/* Container controla o tamanho */
+.print-container,
+.print-container-final,
+.print-historico {
+  width: 100%;
+  height: 160px;
+  /* 👈 ajuste aqui se quiser maior ou menor */
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Imagem se adapta ao container */
+.print-container img,
+.print-container-final img,
+.print-historico img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 🔥 corta sem distorcer */
+  object-position: center;
+  border-radius: inherit;
+}
+
+
+.acoes-print {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+
+.bottom-tabs {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 10000;
+}
+
+.bottom-tabs {
+  transform: translateZ(0); /* força camada de composição e impede flutuação */
 }

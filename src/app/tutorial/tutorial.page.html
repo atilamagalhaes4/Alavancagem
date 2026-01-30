@@ -1,0 +1,479 @@
+<ion-content #tutorialContent [fullscreen]="false" class="ion-padding">
+
+  <div class="topo-tutorial">
+    <div class="titulo-topo">Tutorial </div>
+    <div *ngIf="abaAtiva === 'config'" class="subtopo"><strong>Configurar </strong> → Apostas → Histórico</div>
+    <div *ngIf="abaAtiva === 'historico'" class="subtopo">Configurar → Apostas → <strong> Histórico</strong></div>
+    <div *ngIf="abaAtiva === 'apostas'" class="subtopo">Configurar → <strong> Apostas </strong> → Histórico</div>
+  </div>
+
+  <div class="divisor-colorido"></div>
+
+  <div class="content-padding">
+
+    <!-- CONFIGURAR -->
+    <section *ngIf="abaAtiva === 'config'" class="secao">
+      <div class="logo-container">
+        <ion-icon name="trending-up" class="logo-icon"></ion-icon>
+        <h1>Alavancagem</h1>
+        <p>Configure e inicie uma nova alavancagem</p>
+      </div>
+
+      <ion-card class="card-config">
+        <ion-card-header>
+          <ion-card-title>Nova Alavancagem</ion-card-title>
+          <ion-card-subtitle>Preencha para gerar a sequência</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Nome para identificar esta alavancagem.</div>
+            <ion-item>
+              <ion-label position="stacked">Nome (opcional)</ion-label>
+              <ion-input disabled="true" placeholder="Ex: Alavancagem Futebol" value="Alavancagem Futebol"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Valor de entrada.</div>
+            <ion-item>
+              <ion-label position="stacked">Saldo Inicial (R$)</ion-label>
+              <ion-input disabled="true" type="number" placeholder="20.00" value="20.00"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Odd padrão para os calculos (podem ser alteradas no
+              decorrer).</div>
+            <ion-item>
+              <ion-label position="stacked">Odd Padrão</ion-label>
+              <ion-input disabled="true" type="text" placeholder="1.40" value="1.40" inputmode="decimal"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Quantidade de apostas que iremos calcular.</div>
+            <ion-item>
+              <ion-label position="stacked">Quantidade de Apostas</ion-label>
+              <ion-input disabled="true" type="number" placeholder="20" min="1" value="20"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="balao-ajuda">Previsão antes de confirmar sua alavancagem.</div>
+          <!-- Preview da Meta -->
+          <div class="preview-meta"
+            style="margin-top: 16px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background: #f9f9f9;">
+            <strong>Meta estimada:</strong>
+            <span>R$ 16.733,65</span>
+          </div>
+          <br>
+          <div class="balao-ajuda">Confirmar configurações.</div>
+          <ion-button expand="block" class="btn-continuar">
+            <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+            Criar e Iniciar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+
+      <!-- Botão personalizado "Prosseguir" -->
+      <button class="btn-prosseguir" (click)="mudarAba('apostas')" aria-label="Prosseguir para Apostas">
+        <span class="btn-circle">
+          <ion-icon name="arrow-forward" class="icon-forward"></ion-icon>
+        </span>
+        <span class="btn-labels">
+          <span class="btn-main">Prosseguir</span>
+          <span class="btn-sub">Próximo</span>
+        </span>
+      </button>
+
+    </section>
+
+    <!-- APOSTAS -->
+    <section *ngIf="abaAtiva === 'apostas'" class="secao">
+
+      <!-- Header da Alavancagem -->
+      <div class="balao-ajuda">Alterne entre as suas alavancagens ou edite o numero de apostas.</div>
+      <ion-card class="card-header-alavancagem">
+        <ion-card-content style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="header-info">
+            <h2 style="margin:0; font-weight: bold;">Alavancagem 5</h2>
+            <p style="margin:0; font-size: 0.8em; opacity: 0.8;">20 apostas • Iniciada em 27/01/2026</p>
+          </div>
+          <ion-button size="small" fill="outline" color="dark">
+            <ion-icon name="swap-horizontal-outline"></ion-icon>
+          </ion-button>
+
+          <!-- Botão para editar quantidade de apostas -->
+          <ion-button size="small" fill="clear" color="dark">
+            <ion-icon name="build-outline"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Saldo Atual (Simulando que já ganhou 2 apostas) -->
+      <ion-card class="card-saldo">
+        <ion-card-content>
+          <div class="saldo-info">
+            <div class="saldo-label">Saldo Atual</div>
+            <!-- Cálculo: 20 * 1.40 = 28 -> 28 * 1.40 = 39.20 -->
+            <div class="balao-ajuda">Saldo acumulado até o momento.</div>
+            <div class="saldo-valor">R$ 39,20</div>
+            <ion-badge color="success" class="badge-status">
+              ↑ 96,00% de lucro total
+            </ion-badge>
+          </div>
+
+          <ion-button expand="block" fill="outline" class="btn-projecao">
+            <ion-icon name="analytics-outline" slot="start"></ion-icon>
+            Ocultar Projeção
+          </ion-button>
+
+          <div class="projecao-container">
+            <div class="projecao-item">
+              <span class="projecao-label">🎯 Meta Final:</span>
+              <span class="projecao-valor">R$ 16.580,12</span>
+            </div>
+            <div class="projecao-item">
+              <span class="projecao-label">💰 Falta ganhar:</span>
+              <span class="projecao-valor destaque">R$ 16.540,92</span>
+            </div>
+            <div class="projecao-item">
+              <span class="projecao-label">📊 Projeção Atual:</span>
+              <span class="projecao-valor">R$ 17.023,11</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- APOSTA 1 (VENCIDA - SEM TUTORIAL) -->
+      <ion-card class="aposta-card aposta-vencida" style="opacity: 0.8; border-left: 5px solid #2dd36f;">
+        <ion-card-header>
+          <div class="aposta-header" style="display: flex; justify-content: space-between;">
+            <ion-card-title style="font-size: 1.1em;">Aposta 1</ion-card-title>
+            <ion-badge color="success">Vencida ✓</ion-badge>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+
+            <ion-row>
+              <ion-col size=12>
+                <ion-badge color="warning" style="font-size:0.8rem;">Odd: 1.40</ion-badge>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <div class="info-label">Entrada</div>
+                <div class="info-value">R$ 20,00</div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="info-label">Retorno</div>
+                <div class="info-value">R$ 28,00</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- APOSTA 2 (VENCIDA - SEM TUTORIAL) -->
+      <ion-card class="aposta-card aposta-vencida" style="opacity: 0.8; border-left: 5px solid #2dd36f;">
+        <ion-card-header>
+          <div class="aposta-header" style="display: flex; justify-content: space-between;">
+            <ion-card-title style="font-size: 1.1em;">Aposta 2</ion-card-title>
+            <ion-badge color="success">Vencida ✓</ion-badge>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+
+            <ion-row>
+              <ion-col size=12>
+                <div class="balao-ajuda" style="width: 50%;">Se necessário, altere uma odd anterior.</div>
+                <br>
+                <ion-badge color="warning" style="font-size:0.8rem;">Odd: 1.40</ion-badge>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <div class="info-label">Entrada</div>
+                <div class="info-value">R$ 28,00</div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="info-label">Retorno</div>
+                <div class="info-value">R$ 39,20</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+      <!-- APOSTA 3 (PENDENTE - COM TUTORIAL) -->
+      <ion-card class="aposta-card aposta-pendente" style="border-left: 5px solid #92949c;">
+        <ion-card-header>
+          <div class="aposta-header" style="display: flex; justify-content: space-between;">
+            <ion-card-title style="font-weight: bold;">Aposta 3</ion-card-title>
+            <!-- Corrigido para medium (cinza) -->
+            <ion-badge color="medium">Pendente</ion-badge>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <div class="info-label">Saldo Antes</div>
+                <div class="info-value">R$ 39,20</div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="info-label">Saldo Depois</div>
+                <div class="info-value">R$ 54,88</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Insira a odd desejada para o calculo.</div>
+            <ion-item class="item-odd">
+              <ion-label>Odd:</ion-label>
+              <ion-input type="text" value="1.40" inputmode="decimal" class="odd-input"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="campo-tutorial">
+            <div class="balao-ajuda">Informe se ganhou ou perdeu a operação para podermos liberar
+              a próxima.</div>
+            <div class="botoes-acao">
+              <div class="btn-v">Vitória</div>
+              <div class="btn-d">Derrota</div>
+            </div>
+          </div>
+
+          <div class="campo-tutorial print-area">
+            <div class="balao-ajuda">Adicione o print da aposta (comprovante) para controle.
+            </div>
+            <!-- Ver Print (Botão para quando já finalizou) -->
+            <ion-button expand="block" fill="outline" color="medium">
+              <ion-icon name="image-outline" slot="start"></ion-icon>
+              Sem Print
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+
+      <!-- Finalizar -->
+      <br>
+      <div class="balao-ajuda">Perdeu ou desistiu de continuar? arquive a alavancagem e comece outra.</div>
+      <ion-card class="card-finalizar">
+        <ion-card-content>
+          <ion-button expand="block" fill="clear" color="dark">
+            ❌ Finalizar e Arquivar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Botão Prosseguir -->
+      <button class="btn-prosseguir" (click)="mudarAba('historico')" aria-label="Prosseguir para historico">
+        <span class="btn-circle">
+          <ion-icon name="arrow-forward" class="icon-forward"></ion-icon>
+        </span>
+        <span class="btn-labels">
+          <span class="btn-main">Prosseguir</span>
+          <span class="btn-sub">Próximo</span>
+        </span>
+      </button>
+    </section>
+    <!-- HISTÓRICO -->
+    <section *ngIf="abaAtiva === 'historico'" class="secao">
+
+      <h2 class="titulo-secao">Histórico</h2>
+      <div class="balao-ajuda">Visualize ou delete todas as suas alavancagens já feitas.</div>
+
+      <!-- Alavancagem 1 -->
+      <ion-card class="card-historico" style="margin-bottom: 20px;">
+        <ion-card-header>
+          <div class="historico-header-card">
+            <div>
+              <ion-card-title>Alavancagem Serie A</ion-card-title>
+              <ion-card-subtitle>01/01/2024 - 10/01/2024</ion-card-subtitle>
+            </div>
+            <ion-button fill="clear" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="historico-info">
+            <div class="info-row">
+              <span>Saldo Inicial:</span>
+              <strong>R$ 20,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Saldo Final:</span>
+              <strong class="positivo">R$ 28,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Apostas:</span>
+              <strong>1 / 20</strong>
+            </div>
+          </div>
+
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item slot="header">
+                <ion-label>Ver Apostas e Prints</ion-label>
+              </ion-item>
+              <div slot="content" class="accordion-content">
+                <div class="aposta-historico">
+                  <div class="aposta-historico-header">
+                    <span><strong>Aposta 1</strong> - Odd 1.40</span>
+                    <ion-badge color="success">✓</ion-badge>
+                  </div>
+                  <div class="aposta-historico-saldos">
+                    <span>R$ 20,00 → R$ 28,00</span>
+                  </div>
+                  <div class="print-historico">
+                    <img src="../../assets/outros/imagem-pule-aleatoria.jpg" alt="Print">
+                  </div>
+                </div>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Alavancagem 2 -->
+      <ion-card class="card-historico" style="margin-bottom: 20px;">
+        <ion-card-header>
+          <div class="historico-header-card">
+            <div>
+              <ion-card-title>Alavancagem Baasileirao</ion-card-title>
+              <ion-card-subtitle>15/02/2024 - 20/02/2024</ion-card-subtitle>
+            </div>
+            <ion-button fill="clear" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="historico-info">
+            <div class="info-row">
+              <span>Saldo Inicial:</span>
+              <strong>R$ 50,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Saldo Final:</span>
+              <strong class="negativo">R$ 0,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Apostas:</span>
+              <strong>2 / 20</strong>
+            </div>
+          </div>
+
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item slot="header">
+                <ion-label>Ver Apostas e Prints</ion-label>
+              </ion-item>
+              <div slot="content" class="accordion-content">
+                <div class="aposta-historico">
+                  <div class="aposta-historico-header">
+                    <span><strong>Aposta 1</strong> - Odd 1.50</span>
+                    <ion-badge color="success">✓</ion-badge>
+                  </div>
+                  <div class="aposta-historico-saldos">
+                    <span>R$ 50,00 → R$ 75,00</span>
+                  </div>
+                  <div class="print-historico">
+                    <img src="../../assets/outros/imagem-pule-aleatoria.jpg" alt="Print Aposta 1">
+                  </div>
+                </div>
+                <div class="aposta-historico" style="margin-top: 12px;">
+                  <div class="aposta-historico-header">
+                    <span><strong>Aposta 2</strong> - Odd 1.40</span>
+                    <ion-badge color="danger">✗</ion-badge>
+                  </div>
+                  <div class="aposta-historico-saldos">
+                    <span>R$ 75,00 → R$ 0,00</span>
+                  </div>
+                  <div class="print-historico">
+                    <img src="../../assets/outros/imagem-pule-aleatoria.jpg" alt="Print Aposta 2">
+                  </div>
+                </div>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Alavancagem 3 -->
+      <ion-card class="card-historico" style="margin-bottom: 20px;">
+        <ion-card-header>
+          <div class="historico-header-card">
+            <div>
+              <ion-card-title>Alavancagem aleatória</ion-card-title>
+              <ion-card-subtitle>01/03/2024 - 10/03/2024</ion-card-subtitle>
+            </div>
+            <ion-button fill="clear" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="historico-info">
+            <div class="info-row">
+              <span>Saldo Inicial:</span>
+              <strong>R$ 30,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Saldo Final:</span>
+              <strong class="positivo">R$ 42,00</strong>
+            </div>
+            <div class="info-row">
+              <span>Apostas:</span>
+              <strong>1 / 20</strong>
+            </div>
+          </div>
+
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item slot="header">
+                <ion-label>Ver Apostas e Prints</ion-label>
+              </ion-item>
+              <div slot="content" class="accordion-content">
+                <div class="aposta-historico">
+                  <div class="aposta-historico-header">
+                    <span><strong>Aposta 1</strong> - Odd 1.40</span>
+                    <ion-badge color="success">✓</ion-badge>
+                  </div>
+                  <div class="aposta-historico-saldos">
+                    <span>R$ 30,00 → R$ 42,00</span>
+                  </div>
+                  <div class="print-historico">
+                    <img src="../../assets/outros/imagem-pule-aleatoria.jpg" alt="Print Aposta 1">
+                  </div>
+                </div>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Botão personalizado "Prosseguir" -->
+      <button class="btn-prosseguir" (click)="pularTutorial()" aria-label="Prosseguir para finalizar tutorial">
+        <span class="btn-circle">
+          <ion-icon name="arrow-down-outline"></ion-icon>
+        </span>
+        <span class="btn-labels">
+          <span class="btn-main">Concluir</span>
+          <span class="btn-sub">Tutorial</span>
+        </span>
+      </button>
+    </section>
+  </div>
+</ion-content>

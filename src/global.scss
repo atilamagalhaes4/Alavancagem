@@ -34,4 +34,210 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/*@import "@ionic/angular/css/palettes/dark.system.css";*/
+
+// Toast customizado (fundo branco, texto azul, centralizado)
+.custom-toast {
+  --background: #ffffff !important;
+  --color: #3880ff !important;
+  --border-radius: 12px !important;
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  --min-height: 120px !important;
+  --max-width: 90% !important;
+  --button-color: #3880ff !important;
+  
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  padding: 20px !important;
+  border: 2px solid #3880ff !important;
+}
+
+.custom-toast::part(message) {
+  color: #3880ff !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.custom-toast::part(button) {
+  color: #3880ff !important;
+  font-weight: 600 !important;
+}
+
+:root {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+}
+
+/* Caso o body tenha a classe dark (que o Ionic adiciona), força o claro */
+body.dark {
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #000000 !important;
+}
+
+
+/*
+
+
+As cores padrão do Ionic (que você usa no atributo color="nome") são:
+
+primary: Azul (cor principal do sistema).
+secondary: Azul claro/Ciano.
+tertiary: Roxo.
+success: Verde (Vitória).
+warning: Amarelo/Laranja.
+danger: Vermelho (Derrota).
+light: Cinza muito claro/Branco.
+medium: Cinza médio.
+dark: Preto/Cinza muito escuro.
+
+*/
+
+/* Alerta Simples e Clean */
+ion-alert {
+  --border-radius: 16px;
+  --background: #ffffff;
+  --width: 300px;
+  --max-width: 85vw;
+}
+
+/* Cabeçalho */
+ion-alert .alert-head {
+  padding: 20px 20px 10px 20px;
+  text-align: center;
+}
+
+/* Título */
+ion-alert .alert-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Mensagem e Inputs */
+ion-alert .alert-message, 
+ion-alert .alert-input-group {
+  padding: 10px 20px 20px 20px;
+  text-align: center;
+  color: #666;
+}
+
+/* Botões */
+ion-alert .alert-button-group {
+  padding: 0 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+ion-alert .alert-button {
+  margin: 0 !important;
+  height: 44px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 16px;
+}
+
+/* Botão de Ação (Azul) */
+ion-alert .alert-button:not([role="cancel"]) {
+  background-color: #5b7fff;
+  color: #ffffff;
+}
+
+/* Botão de Cancelar (Cinza claro) */
+ion-alert .alert-button[role="cancel"] {
+  background-color: #f0f0f0;
+  color: #444;
+}
+
+ion-alert .alert-button {
+  border-radius: 20px;
+  /* outras propriedades */
+}
+
+/* Força os botões do ion-alert a ficarem verticalmente (um embaixo do outro) */
+ion-alert .alert-button-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+  padding: 16px 20px 20px 20px;
+}
+
+/* Estilo dos botões */
+ion-alert .alert-button {
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 0 !important;
+  text-transform: none;
+}
+
+/* Botões do ion-alert: só texto, fundo transparente, empilhados verticalmente */
+ion-alert .alert-button-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+  padding: 16px 20px 20px 20px;
+}
+
+ion-alert .alert-button {
+  background: transparent !important;
+  color: #5b7fff !important; /* cor azul para o texto */
+  border: none !important;
+  box-shadow: none !important;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 0 !important;
+  transition: background-color 0.2s ease;
+}
+
+/* Efeito hover para dar feedback visual */
+ion-alert .alert-button:hover {
+  background-color: rgba(91, 127, 255, 0.1) !important;
+}
+
+/* Botão cancelar com cor diferente */
+ion-alert .alert-button[role="cancel"] {
+  color: #888 !important;
+}
+
+/* Remove qualquer foco padrão para ficar mais clean */
+ion-alert .alert-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+ion-alert .alert-button {
+  background: transparent !important;
+  color: #5b7fff !important;
+  text-align: center;
+  
+  /* Recomendação: Apenas a primeira letra e Negrito */
+  text-transform: none !important; 
+  font-weight: 700 !important; 
+  font-size: 16px;
+  
+  width: 100%;
+  padding: 14px 0;
+  border-top: 1px solid #f0f0f0; /* Uma linha sutil separando os botões */
+}
+
+/* O botão de cancelar um pouco mais leve */
+ion-alert .alert-button[role="cancel"] {
+  color: #999 !important;
+  font-weight: 500 !important;
+}
+
+/* Remove a linha do primeiro botão para não ficar estranho */
+ion-alert .alert-button:first-child {
+  border-top: none;
+}
+
+ion-content {
+  --padding-top: calc(var(--ion-safe-area-top) + 8px) !important;
+  --padding-bottom: calc(var(--ion-safe-area-bottom) + 8px) !important;
+}
